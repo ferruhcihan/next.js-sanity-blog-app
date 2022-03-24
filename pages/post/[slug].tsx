@@ -1,3 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
+import { useState, useEffect } from "react";
+import imageUrlBuilder from "@sanity/image-url";
+
 interface IPost {
   title: string;
   body: any;
@@ -5,11 +9,22 @@ interface IPost {
 }
 
 export const Post = ({ title, body, image }: IPost) => {
+  const [imageUrl, setImageUrl] = useState("") as any;
+
   console.log("body", body);
+
+  useEffect(() => {
+    const imgBuilder = imageUrlBuilder({
+      projectId: "mnlo2t4u",
+      dataset: "production",
+    } as any);
+    setImageUrl(imgBuilder.image(image));
+  }, [image]);
+
   return (
-    <>
-      <div>{title}</div>
-    </>
+    <div>
+      <div>{imageUrl && <img src={imageUrl} alt="post_img" />}</div>
+    </div>
   );
 };
 
