@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import imageUrlBuilder from "@sanity/image-url";
 //@ts-ignore
 import BlockContent from "@sanity/block-content-to-react";
+import { Toolbar } from "../../components/toolbar";
 
 interface IPost {
   title: string;
@@ -25,6 +26,7 @@ export const Post = ({ title, body, image }: IPost) => {
 
   return (
     <div>
+      <Toolbar />
       <div className="m-auto w-[750px] max-w-[calc(100wv-50px)]">
         <h1 className="my-4 text-3xl font-bold">{title}</h1>
         {imageUrl && <img className="w-full" src={imageUrl} alt="post_img" />}
