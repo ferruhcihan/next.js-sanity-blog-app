@@ -1,6 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState, useEffect } from "react";
 import imageUrlBuilder from "@sanity/image-url";
+//@ts-ignore
+import BlockContent from "@sanity/block-content-to-react";
 
 interface IPost {
   title: string;
@@ -23,7 +25,13 @@ export const Post = ({ title, body, image }: IPost) => {
 
   return (
     <div>
-      <div>{imageUrl && <img src={imageUrl} alt="post_img" />}</div>
+      <div className="m-auto w-[750px] max-w-[calc(100wv-50px)]">
+        <h1 className="my-4 text-3xl font-bold">{title}</h1>
+        {imageUrl && <img className="w-full" src={imageUrl} alt="post_img" />}
+        <div className="text-2xl leading-10 tracking-wide text-justify indent-12">
+          <BlockContent blocks={body} />
+        </div>
+      </div>
     </div>
   );
 };
