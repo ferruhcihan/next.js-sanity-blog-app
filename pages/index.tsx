@@ -12,4 +12,24 @@ const Home: NextPage = () => {
   );
 };
 
+export const getServerSideProps = async (pageContext: any) => {
+  const query = encodeURIComponent(`*[ _type == "post" ]`);
+  const url = `https://mnlo2t4u.api.sanity.io/v1/data/query/production?query=${query}`;
+  const result = await fetch(url).then((res) => res.json());
+
+  if (!result.result || result.result.length) {
+    return {
+      props: {
+        posts: [],
+      },
+    };
+  } else {
+    return {
+      props: {
+        posts: result.result,
+      },
+    };
+  }
+};
+
 export default Home;
