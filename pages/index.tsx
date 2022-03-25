@@ -13,7 +13,9 @@ export default function Home({ posts }: IHome) {
   return (
     <div>
       <Toolbar />
-      <h1 className="text-3xl font-bold underline bg-red">Hello world!</h1>
+      <h1 className="text-3xl font-bold text-center underline">
+        {posts[0].title}
+      </h1>
     </div>
   );
 }
@@ -23,7 +25,7 @@ export const getServerSideProps = async (pageContext: any) => {
   const url = `https://mnlo2t4u.api.sanity.io/v1/data/query/production?query=${query}`;
   const result = await fetch(url).then((res) => res.json());
 
-  if (!result.result || result.result.length) {
+  if (!result.result || !result.result.length) {
     return {
       props: {
         posts: [],
