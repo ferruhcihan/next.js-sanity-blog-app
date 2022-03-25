@@ -3,14 +3,20 @@ import Head from "next/head";
 import Image from "next/image";
 import { Toolbar } from "../components/toolbar";
 
-const Home: NextPage = () => {
+interface IHome {
+  posts: any[];
+}
+
+export default function Home({ posts }: IHome) {
+  console.log("posts", posts);
+
   return (
     <div>
       <Toolbar />
       <h1 className="text-3xl font-bold underline bg-red">Hello world!</h1>
     </div>
   );
-};
+}
 
 export const getServerSideProps = async (pageContext: any) => {
   const query = encodeURIComponent(`*[ _type == "post" ]`);
@@ -31,5 +37,3 @@ export const getServerSideProps = async (pageContext: any) => {
     };
   }
 };
-
-export default Home;
