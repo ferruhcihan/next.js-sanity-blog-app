@@ -14,7 +14,7 @@ export default function Home({ posts }: IHome) {
     <div>
       <Toolbar />
       <h1 className="text-3xl font-bold text-center underline">
-        {posts[0].title}
+        {posts[0].title}test
       </h1>
     </div>
   );
