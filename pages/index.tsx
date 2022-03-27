@@ -3,6 +3,8 @@ import Head from "next/head";
 import Image from "next/image";
 import { Toolbar } from "../components/toolbar";
 import { useRouter } from "next/router";
+import imageUrlBuilder from "@sanity/image-url";
+import { useState, useEffect } from "react";
 
 interface IHome {
   posts: any[];
@@ -12,15 +14,55 @@ export default function Home({ posts }: IHome) {
   const router = useRouter();
   console.log("posts", posts);
 
+  const [mappedPosts, setMappedPosts] = useState([]) as any;
+
+  useEffect(() => {
+    if (posts.length) {
+      const imgBuilder = imageUrlBuilder({
+        projectId: "mnlo2t4u",
+        dataset: "production",
+      });
+
+      setMappedPosts(
+        posts.map((p) => {
+          return {
+            ...p,
+            mainImage: imgBuilder.image(p.mainImage).width(500).height(250),
+          };
+        })
+      );
+    } else {
+      setMappedPosts([]);
+    }
+  }, [posts]);
+
   return (
     <div>
       <Toolbar />
-      <h1
-        className="text-3xl font-bold text-center underline cursor-pointer"
-        onClick={() => router.push(`/post/${posts[0].slug.current}`)}
-      >
-        {posts[0].title}
-      </h1>
+      <div className="text-center">
+        <h1>Welcome To My Blog</h1>
+        <h3>Recent Posts:</h3>
+        <div className="flex flex-col items-center">
+          {mappedPosts.length ? (
+            mappedPosts.map((p: any, index: number) => (
+              <div
+                key={index}
+                className="m-6 w-[500px] h-[316px] cursor-pointer text-center items-center"
+                onClick={() => router.push(`/post/${p.slug.current}`)}
+              >
+                <h3>{p.title}</h3>
+                <img
+                  src={p.mainImage}
+                  alt="post-image"
+                  className="w-[500px] transition rounded hover:w-[490px] hover:transition shadow-md shadow-gray-400"
+                />
+              </div>
+            ))
+          ) : (
+            <>No Posts Yet</>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
