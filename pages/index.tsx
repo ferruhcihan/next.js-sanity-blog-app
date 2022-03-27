@@ -1,6 +1,3 @@
-import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
 import { Toolbar } from "../components/toolbar";
 import { useRouter } from "next/router";
 import imageUrlBuilder from "@sanity/image-url";
@@ -12,8 +9,6 @@ interface IHome {
 
 export default function Home({ posts }: IHome) {
   const router = useRouter();
-  console.log("posts", posts);
-
   const [mappedPosts, setMappedPosts] = useState([]) as any;
 
   useEffect(() => {
@@ -40,21 +35,19 @@ export default function Home({ posts }: IHome) {
     <div>
       <Toolbar />
       <div className="text-center">
-        <h1>Welcome To My Blog</h1>
-        <h3>Recent Posts:</h3>
         <div className="flex flex-col items-center">
           {mappedPosts.length ? (
             mappedPosts.map((p: any, index: number) => (
               <div
                 key={index}
-                className="m-6 w-[500px] h-[316px] cursor-pointer text-center items-center"
+                className="flex flex-col m-6 w-[500px] h-[316px] cursor-pointer text-center items-center "
                 onClick={() => router.push(`/post/${p.slug.current}`)}
               >
-                <h3>{p.title}</h3>
+                <h3 className="mb-2 text-2xl">{p.title}</h3>
                 <img
                   src={p.mainImage}
                   alt="post-image"
-                  className="w-[500px] transition rounded hover:w-[490px] hover:transition shadow-md shadow-gray-400"
+                  className="w-[500px] transition rounded hover:w-[490px] hover:transition shadow-md shadow-gray-500 hover:shadow-lg hover:shadow-gray-400"
                 />
               </div>
             ))
